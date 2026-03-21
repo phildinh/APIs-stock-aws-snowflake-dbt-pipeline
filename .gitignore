@@ -205,3 +205,31 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Virtual environment
+venv/
+
+# Secrets
+.env
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Logs
+logs/
+*.log
+
+# dbt
+dbt/finance_pipeline/target/
+dbt/finance_pipeline/dbt_packages/
+dbt/finance_pipeline/logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# VS Code
+.vscode/
