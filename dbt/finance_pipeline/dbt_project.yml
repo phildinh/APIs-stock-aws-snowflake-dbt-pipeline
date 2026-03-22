@@ -2,6 +2,7 @@
 # dbt_project.yml
 # Project: finance_pipeline
 # ============================================================
+
 name: 'finance_pipeline'
 version: '1.0.0'
 profile: 'finance_pipeline'
