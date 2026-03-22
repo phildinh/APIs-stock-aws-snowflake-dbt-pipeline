@@ -1,0 +1,53 @@
+version: 2
+
+models:
+  - name: stg_stock_prices
+    description: "Cleaned daily stock prices with daily return metric"
+    columns:
+      - name: ticker
+        description: "Stock symbol"
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: ['AAPL', 'MSFT', 'NVDA', 'JPM', 'JNJ', 'AMZN', 'XOM', 'CAT', 'KO', 'GOOGL']
+
+      - name: trade_date
+        description: "Trading date"
+        data_tests:
+          - not_null
+
+      - name: close_price
+        description: "Closing price"
+        data_tests:
+          - not_null
+
+      - name: volume
+        description: "Shares traded"
+        data_tests:
+          - not_null
+
+      - name: daily_return_pct
+        description: "Percentage price change from open to close"
+        data_tests:
+          - not_null
+
+  - name: stg_company_profiles
+    description: "Cleaned company profiles with market cap classification"
+    columns:
+      - name: ticker
+        description: "Stock symbol"
+        data_tests:
+          - not_null
+          - unique
+
+      - name: company_name
+        description: "Full company name"
+        data_tests:
+          - not_null
+
+      - name: market_cap_tier
+        description: "Company size classification"
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: ['Mega Cap', 'Large Cap', 'Mid Cap', 'Small Cap', 'Micro Cap']
