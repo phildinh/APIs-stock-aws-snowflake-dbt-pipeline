@@ -1,0 +1,61 @@
+# ============================================================
+# dbt_ci.yml
+# Purpose: Run dbt build on every PR to develop
+# Triggers: Pull request opened, updated, or reopened
+# ============================================================
+
+name: dbt CI
+
+on:
+  pull_request:
+    branches:
+      - develop
+      - main
+
+jobs:
+  dbt-build:
+    name: dbt build and test
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1 — Check out the code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Step 2 — Set up Python
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # Step 3 — Install dbt and Snowflake adapter
+      - name: Install dbt
+        run: |
+          pip install dbt-snowflake==1.8.0
+
+      # Step 4 — Create profiles.yml from GitHub Secrets
+      # This replaces your local ~/.dbt/profiles.yml
+      - name: Create dbt profiles.yml
+        run: |
+          mkdir -p ~/.dbt
+          cat <<EOF > ~/.dbt/profiles.yml
+          finance_pipeline:
+            target: dev
+            outputs:
+              dev:
+                type: snowflake
+                account: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+                user: ${{ secrets.SNOWFLAKE_USER }}
+                password: ${{ secrets.SNOWFLAKE_PASSWORD }}
+                role: TRANSFORMER
+                warehouse: COMPUTE_WH
+                database: STOCK_DB_DEV
+                schema: RAW
+                threads: 4
+          EOF
+
+      # Step 5 — Run dbt build
+      - name: Run dbt build
+        working-directory: dbt/finance_pipeline
+        run: |
+          dbt build
