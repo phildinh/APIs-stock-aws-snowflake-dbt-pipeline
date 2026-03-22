@@ -1,0 +1,52 @@
+version: 2
+
+sources:
+  - name: raw
+    database: STOCK_DB_DEV
+    schema: RAW
+    description: "Bronze layer — raw data loaded by ingestion scripts"
+
+    tables:
+      - name: raw_stock_prices
+        description: "Daily OHLCV stock prices from yfinance"
+        columns:
+          - name: ticker
+            description: "Stock symbol e.g. AAPL"
+          - name: trade_date
+            description: "Trading date"
+          - name: open_price
+            description: "Opening price"
+          - name: high_price
+            description: "Daily high price"
+          - name: low_price
+            description: "Daily low price"
+          - name: close_price
+            description: "Closing price"
+          - name: volume
+            description: "Number of shares traded"
+          - name: _extracted_at
+            description: "When the data was extracted from the API"
+          - name: _loaded_at
+            description: "When the data was loaded into Snowflake"
+          - name: _source
+            description: "Source system"
+
+      - name: raw_company_profiles
+        description: "Company profile data from Finnhub"
+        columns:
+          - name: ticker
+            description: "Stock symbol e.g. AAPL"
+          - name: company_name
+            description: "Full company name"
+          - name: sector
+            description: "Industry sector"
+          - name: exchange
+            description: "Stock exchange"
+          - name: market_cap
+            description: "Market capitalisation in millions USD"
+          - name: country
+            description: "Country of incorporation"
+          - name: currency
+            description: "Trading currency"
+          - name: ipo_date
+            description: "IPO date"
