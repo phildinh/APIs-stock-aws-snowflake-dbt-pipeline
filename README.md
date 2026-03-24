@@ -306,3 +306,4 @@ docker-compose up --build
 ## Author
 
 **Phil Dinh**
+[GitHub](https://github.com/phildinh) · [LinkedIn](https://www.linkedin.com/in/phil-dinh/)
